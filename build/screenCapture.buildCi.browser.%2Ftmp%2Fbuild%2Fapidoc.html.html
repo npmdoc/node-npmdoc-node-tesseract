@@ -1,0 +1,335 @@
+<html><head></head><body><div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a>node-tesseract (v0.2.7)</a>
+</h1>
+<h4>A simple wrapper for the Tesseract OCR package</h4>
+<div class="apidocSectionDiv"><a href="#apidoc.tableOfContents" id="apidoc.tableOfContents"><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.node-tesseract">module node-tesseract</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.node-tesseract.process">
+            function <span class="apidocSignatureSpan">node-tesseract.</span>process
+            <span class="apidocSignatureSpan">(image, options, callback)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">node-tesseract.</span>utils</span>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.node-tesseract.process">module node-tesseract.process</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.node-tesseract.process.process">
+            function <span class="apidocSignatureSpan">node-tesseract.</span>process
+            <span class="apidocSignatureSpan">(image, options, callback)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.node-tesseract.utils">module node-tesseract.utils</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.node-tesseract.utils.merge">
+            function <span class="apidocSignatureSpan">node-tesseract.utils.</span>merge
+            <span class="apidocSignatureSpan">(defaults, options)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.node-tesseract" id="apidoc.module.node-tesseract">module node-tesseract</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.node-tesseract.process" id="apidoc.element.node-tesseract.process">
+        function <span class="apidocSignatureSpan">node-tesseract.</span>process
+        <span class="apidocSignatureSpan">(image, options, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">process = function (image, options, callback) {
+
+  if (typeof options === 'function') {
+    callback = options;
+    options = null;
+  }
+
+  options = utils.merge(Tesseract.options, options);
+
+  // generate output file name
+  var output = path.resolve(tmpdir, 'node-tesseract-' + uuid.v4());
+
+  // add the tmp file to the list
+  Tesseract.tmpFiles.push(output);
+
+  // assemble tesseract command
+  var command = [options.binary, image, output];
+
+  if (options.l !== null) {
+    command.push('-l ' + options.l);
+  }
+
+  if (options.psm !== null) {
+    command.push('-psm ' + options.psm);
+  }
+
+  if (options.config !== null) {
+    command.push(options.config);
+  }
+
+  command = command.join(' ');
+
+  var opts = options.env || {};
+
+  // Run the tesseract command
+  exec(command, opts, function(err) {
+    if (err) {
+      // Something went wrong executing the assembled command
+      callback(err, null);
+      return;
+    }
+
+    // Find one of the three possible extension
+    glob(output + '.+(html|hocr|txt)', function(err, files){
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      fs.readFile(files[0], Tesseract.outputEncoding, function(err, data) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+
+        var index = Tesseract.tmpFiles.indexOf(output);
+        if (~index) Tesseract.tmpFiles.splice(index, 1);
+
+        fs.unlink(files[0]);
+
+        callback(null, data)
+      });
+    })
+  }); // end exec
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+## Usage
+
+```JavaScript
+var tesseract = require('node-tesseract');
+
+// Recognize text of any language in any format
+tesseract.<span class="apidocCodeKeywordSpan">process</span>(__dirname + '/path/to/image.jpg',function(err, text) {
+	if(err) {
+		console.error(err);
+	} else {
+		console.log(text);
+	}
+});
+...</pre></li>
+    </ul>
+
+
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.node-tesseract.process" id="apidoc.module.node-tesseract.process">module node-tesseract.process</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.node-tesseract.process.process" id="apidoc.element.node-tesseract.process.process">
+        function <span class="apidocSignatureSpan">node-tesseract.</span>process
+        <span class="apidocSignatureSpan">(image, options, callback)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">process = function (image, options, callback) {
+
+  if (typeof options === 'function') {
+    callback = options;
+    options = null;
+  }
+
+  options = utils.merge(Tesseract.options, options);
+
+  // generate output file name
+  var output = path.resolve(tmpdir, 'node-tesseract-' + uuid.v4());
+
+  // add the tmp file to the list
+  Tesseract.tmpFiles.push(output);
+
+  // assemble tesseract command
+  var command = [options.binary, image, output];
+
+  if (options.l !== null) {
+    command.push('-l ' + options.l);
+  }
+
+  if (options.psm !== null) {
+    command.push('-psm ' + options.psm);
+  }
+
+  if (options.config !== null) {
+    command.push(options.config);
+  }
+
+  command = command.join(' ');
+
+  var opts = options.env || {};
+
+  // Run the tesseract command
+  exec(command, opts, function(err) {
+    if (err) {
+      // Something went wrong executing the assembled command
+      callback(err, null);
+      return;
+    }
+
+    // Find one of the three possible extension
+    glob(output + '.+(html|hocr|txt)', function(err, files){
+      if (err) {
+        callback(err, null);
+        return;
+      }
+      fs.readFile(files[0], Tesseract.outputEncoding, function(err, data) {
+        if (err) {
+          callback(err, null);
+          return;
+        }
+
+        var index = Tesseract.tmpFiles.indexOf(output);
+        if (~index) Tesseract.tmpFiles.splice(index, 1);
+
+        fs.unlink(files[0]);
+
+        callback(null, data)
+      });
+    })
+  }); // end exec
+
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+## Usage
+
+```JavaScript
+var tesseract = require('node-tesseract');
+
+// Recognize text of any language in any format
+tesseract.<span class="apidocCodeKeywordSpan">process</span>(__dirname + '/path/to/image.jpg',function(err, text) {
+	if(err) {
+		console.error(err);
+	} else {
+		console.log(text);
+	}
+});
+...</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.node-tesseract.utils" id="apidoc.module.node-tesseract.utils">module node-tesseract.utils</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.node-tesseract.utils.merge" id="apidoc.element.node-tesseract.utils.merge">
+        function <span class="apidocSignatureSpan">node-tesseract.utils.</span>merge
+        <span class="apidocSignatureSpan">(defaults, options)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">merge = function (defaults, options) {
+  defaults = defaults || {};
+  if (options &amp;&amp; typeof options === 'object') {
+    var i = 0,
+    keys = Object.keys(options);
+
+    for (i = 0; i &lt; keys.length; i += 1) {
+      if (options[keys[i]] !== undefined) {
+       defaults[keys[i]] = options[keys[i]];
+      }
+    }
+  }
+  return defaults;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
+</body></html>
