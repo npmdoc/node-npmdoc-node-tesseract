@@ -1,4 +1,7 @@
-# api documentation for  node-tesseract (v0.2.7)  [![npm package](https://img.shields.io/npm/v/npmdoc-node-tesseract.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-node-tesseract) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-tesseract.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-tesseract)
+# npmdoc-node-tesseract
+
+#### api documentation for  node-tesseract (v0.2.7)  [![npm package](https://img.shields.io/npm/v/npmdoc-node-tesseract.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-node-tesseract) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-tesseract.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-tesseract)
+
 #### A simple wrapper for the Tesseract OCR package
 
 [![NPM](https://nodei.co/npm/node-tesseract.png?downloads=true&downloadRank=true&stars=true)](https://www.npmjs.com/package/node-tesseract)
