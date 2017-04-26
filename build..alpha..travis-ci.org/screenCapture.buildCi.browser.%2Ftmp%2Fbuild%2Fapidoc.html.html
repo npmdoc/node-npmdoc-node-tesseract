@@ -65,18 +65,24 @@
 
         <li>
 
+            <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">node-tesseract.</span>tesseract</span>
+
+        </li>
+
+        <li>
+
             <span class="apidocSignatureSpan">object <span class="apidocSignatureSpan">node-tesseract.</span>utils</span>
 
         </li>
 
     </ol></li>
 
-    <li class="apidocModuleLi"><a href="#apidoc.module.node-tesseract.process">module node-tesseract.process</a><ol>
+    <li class="apidocModuleLi"><a href="#apidoc.module.node-tesseract.tesseract">module node-tesseract.tesseract</a><ol>
 
         <li>
 
-            <a class="apidocElementLiA" href="#apidoc.element.node-tesseract.process.process">
-            function <span class="apidocSignatureSpan">node-tesseract.</span>process
+            <a class="apidocElementLiA" href="#apidoc.element.node-tesseract.tesseract.process">
+            function <span class="apidocSignatureSpan">node-tesseract.tesseract.</span>process
             <span class="apidocSignatureSpan">(image, options, callback)</span>
             </a>
 
@@ -196,15 +202,17 @@ tesseract.<span class="apidocCodeKeywordSpan">process</span>(__dirname + '/path/
 
 
 
+
+
 </div>
 
 <div class="apidocSectionDiv">
-<h1><a href="#apidoc.module.node-tesseract.process" id="apidoc.module.node-tesseract.process">module node-tesseract.process</a></h1>
+<h1><a href="#apidoc.module.node-tesseract.tesseract" id="apidoc.module.node-tesseract.tesseract">module node-tesseract.tesseract</a></h1>
 
 
     <h2>
-        <a href="#apidoc.element.node-tesseract.process.process" id="apidoc.element.node-tesseract.process.process">
-        function <span class="apidocSignatureSpan">node-tesseract.</span>process
+        <a href="#apidoc.element.node-tesseract.tesseract.process" id="apidoc.element.node-tesseract.tesseract.process">
+        function <span class="apidocSignatureSpan">node-tesseract.tesseract.</span>process
         <span class="apidocSignatureSpan">(image, options, callback)</span>
         </a>
     </h2>
@@ -320,7 +328,22 @@ tesseract.<span class="apidocCodeKeywordSpan">process</span>(__dirname + '/path/
   }
   return defaults;
 }</pre></li>
-    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+  process: function(image, options, callback) {
+
+if (typeof options === 'function') {
+  callback = options;
+  options = null;
+}
+
+options = utils.<span class="apidocCodeKeywordSpan">merge</span>(Tesseract.options, options);
+
+// generate output file name
+var output = path.resolve(tmpdir, 'node-tesseract-' + uuid.v4());
+
+// add the tmp file to the list
+Tesseract.tmpFiles.push(output);
+...</pre></li>
     </ul>
 
 
