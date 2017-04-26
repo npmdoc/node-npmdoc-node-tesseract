@@ -1,6 +1,6 @@
 # npmdoc-node-tesseract
 
-#### api documentation for  node-tesseract (v0.2.7)  [![npm package](https://img.shields.io/npm/v/npmdoc-node-tesseract.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-node-tesseract) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-tesseract.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-tesseract)
+#### basic api documentation for  node-tesseract (v0.2.7)  [![npm package](https://img.shields.io/npm/v/npmdoc-node-tesseract.svg?style=flat-square)](https://www.npmjs.org/package/npmdoc-node-tesseract) [![travis-ci.org build-status](https://api.travis-ci.org/npmdoc/node-npmdoc-node-tesseract.svg)](https://travis-ci.org/npmdoc/node-npmdoc-node-tesseract)
 
 #### A simple wrapper for the Tesseract OCR package
 
@@ -63,7 +63,8 @@
     "scripts": {
         "test": "mocha"
     },
-    "version": "0.2.7"
+    "version": "0.2.7",
+    "bin": {}
 }
 ```
 
